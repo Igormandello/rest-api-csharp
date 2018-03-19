@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace rest_api.Controllers
 {
-    [AllowCrossSite]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/project")]
     public class ProjectController : ApiController
     {
