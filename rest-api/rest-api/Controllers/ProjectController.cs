@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace rest_api.Controllers
 {
+    [AllowCrossSite]
     [RoutePrefix("api/project")]
     public class ProjectController : ApiController
     {
