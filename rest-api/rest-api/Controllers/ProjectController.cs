@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using rest_api.DB;
+using rest_api.DB.DAOs;
 using rest_api.Models;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,63 @@ namespace rest_api.Controllers
     [RoutePrefix("api/project")]
     public class ProjectController : ApiController
     {
+        private ProjectDAO dao = new ProjectDAO();
+
+        [AcceptVerbs("GET")]
+        [Route("")]
+        public String SelectAll()
+        {
+            StringWriter sw = new StringWriter();
+            JsonSerializer serializer = new JsonSerializer();
+
+            try
+            {
+                serializer.Serialize(sw, dao.GetAll());
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+
+            return sw.ToString();
+        }
+
+        [AcceptVerbs("GET")]
+        [Route("{id}")]
+        public String Select(int id)
+        {
+            StringWriter sw = new StringWriter();
+            JsonSerializer serializer = new JsonSerializer();
+
+            try
+            {
+                serializer.Serialize(sw, dao.GetByID(id));
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+
+            String result = sw.ToString();
+            if (result == "null")
+                return "{}";
+
+            return result;
+        }
+
         [AcceptVerbs("POST")]
         [Route("create")]
         public String Create(Project project)
         {
-            return "";
-        }
+            try
+            {
+                dao.Insert(project);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
 
-        [AcceptVerbs("PUT")]
-        [Route("{id}/update")]
-        public String Update(Project project)
-        {
             return "";
         }
 
@@ -30,21 +77,32 @@ namespace rest_api.Controllers
         [Route("{id}/delete")]
         public String Delete(int id)
         {
+            try
+            {
+                dao.Delete(id);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+
             return "";
         }
 
-        [AcceptVerbs("GET")]
-        [Route("{id}")]
-        public String Select(int id)
+        [AcceptVerbs("PUT")]
+        [Route("{id}/update")]
+        public String Update(Project project)
         {
-            return "{}";
-        }
+            try
+            {
+                dao.Update(project);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
 
-        [AcceptVerbs("GET")]
-        [Route("")]
-        public String SelectAll()
-        {
-            return "{}";
+            return "";
         }
     }
 }

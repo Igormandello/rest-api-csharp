@@ -10,7 +10,7 @@ namespace rest_api.DB.DAOs
     {
         List<X> GetAll();
         X GetByID(int id);
-        X Insert(X item);
+        void Insert(X item);
         void Delete(int id);
         void Update(X item);
     }
