@@ -5,13 +5,26 @@ body
   padding: 0;
   font-family: Segoe UI;
   background-color: #3c6382;
+  color: white;
 }
 
 header
 {
   background-color: #0a3d62;
   padding: 20px;
+}
+
+header h1 a
+{
+  text-decoration: none;
   color: white;
+  transition: color 0.5s;
+}
+
+header h1 a:hover
+{
+  text-decoration: none;
+  color: lightgrey;
 }
 
 header h1

@@ -16,7 +16,11 @@ class Main extends Component
     return (
       <div className="app">
         <header>
-          <h1> Projetos </h1>
+         <h1>
+           <a href="./">
+             Projetos
+           </a>
+         </h1>
         </header>
 
         <div className="content">

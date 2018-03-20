@@ -1,8 +1,10 @@
 .projectBox
 {
   position: relative;
+  
   font-size: 1.4em;
   font-weight: 400;
+  color: black;
   
   text-align: left;
   background-color: #FFF;
