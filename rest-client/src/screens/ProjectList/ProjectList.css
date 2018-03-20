@@ -1,0 +1,40 @@
+.projectBox
+{
+  position: relative;
+  font-size: 1.4em;
+  font-weight: 400;
+  
+  text-align: left;
+  background-color: #FFF;
+  margin-top: 25px;
+  padding: 20px;
+  word-break: break-all;
+  
+  border-radius: 0.3em;
+  
+  -webkit-box-shadow: 10px 10px 20px 2px rgba(0,0,0,0.6);
+  -moz-box-shadow: 10px 10px 20px 2px rgba(0,0,0,0.6);
+  box-shadow: 10px 10px 20px 2px rgba(0,0,0,0.6);
+}
+
+.projectBox h2
+{
+  text-align: center;
+  font-size: 1.3em;
+  margin-top: 0;
+}
+
+hr
+{
+  margin: 20px 0 20px 0;
+}
+
+.projectBox div
+{
+  line-height: 0;
+}
+
+.projectBox div button
+{
+  transition: background-color 0.5s;
+}

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import './bootstrap.css';
+import './index.css';
+
 import Project from './screens/Project/Project';
 import ProjectList from './screens/ProjectList/ProjectList';
 import registerServiceWorker from './registerServiceWorker';
-
-import './index.css';
 
 class Main extends Component
 {
