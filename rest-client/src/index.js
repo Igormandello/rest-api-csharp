@@ -1,8 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import Project from './screens/Project/Project';
+import ProjectList from './screens/ProjectList/ProjectList';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import './index.css';
+
+class Main extends Component
+{
+  render()
+  {
+    return (
+      <div className="app">
+        <header>
+          <h1> Projetos </h1>
+        </header>
+
+        <div className="content">
+          <Router>
+            <Switch>
+              <Route exact path="/" component={ ProjectList } />
+              <Route path="/:page" component={ Project } />
+            </Switch>
+          </Router>
+        </div>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<Main/>, document.getElementById('root'));
 registerServiceWorker();
