@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Alert from 'react-s-alert';
+
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 import './Project.css';
 
 class Project extends Component
@@ -15,12 +19,21 @@ class Project extends Component
     teachers: [],
   }
   
+  save()
+  {
+    Alert.success(<h1>Alterações salvas com sucesso!</h1>, {
+      position: 'bottom-right',
+      effect: 'scale',
+      timeout: 3000
+    })
+  }
+  
   render()
   {
     return (
       <div>
         <div className="project-title">
-          Project Title
+          <input type="text" className="form-control" defaultValue="Project Title"/>
         </div>
         
         <div className="project-year">
@@ -58,9 +71,13 @@ class Project extends Component
         <br/><br/>
         
         <div className="project-options">
-          <button type="button" className="btn btn-primary"> Salvar Alterações </button>
+          <button type="button" className="btn btn-primary" onClick={ this.save }>
+              Salvar Alterações
+          </button>
           <button type="button" className="btn btn-danger"> Excluir </button>
         </div>
+        
+        <Alert stack={{ limit: 3 }}/>
       </div>
     )
   }
