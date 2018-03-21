@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import './bootstrap.css';
+import './bootstrap.min.css';
 import './index.css';
 
 import Project from './screens/Project/Project';
@@ -27,7 +27,7 @@ class Main extends Component
           <Router>
             <Switch>
               <Route exact path="/" component={ ProjectList } />
-              <Route path="/:page" component={ Project } />
+              <Route path="/:id" component={ Project } />
             </Switch>
           </Router>
         </div>
