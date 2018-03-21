@@ -39,4 +39,5 @@ hr
 .projectBox div button
 {
   transition: background-color 0.5s;
+  margin-left: 0;
 }

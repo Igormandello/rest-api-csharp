@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
+
 import './ProjectList.css';
 
 class ProjectList extends Component
@@ -10,29 +12,51 @@ class ProjectList extends Component
   
   state =
   {
-    projects: []
+    projects: [],
   }
   
   requestProjects()
   {
-    let projs = []
+    let settings =
+        {
+          url: "http://localhost:59674/api/project/",
+          method: 'get'
+        }
     
-    projs.push(this.createProjectBox())
-    this.setState({ projects: projs })
+    //let query = $("input")[0];
+    //if (query != "")
+    //  settings.url += query
+      
+    $.ajax(settings).then(res =>
+    {
+      this.setState({ projects: res })
+    })
   }
   
+  printProjects()
+  {
+    let projDivs = []
+    this.state.projects.forEach(proj => 
+    {
+      projDivs.push(this.createProjectBox(proj));
+    });
+    
+    return projDivs;
+  }
+
   createProjectBox(project)
   {
+    console.log(project)
     return (
       <div className="projectBox">
-        <h2> Project title - 2018 </h2>
+        <h2> { project.Name } - { project.Year } </h2>
         
-        Project description
+        { project.Description }
         
         <hr/>
         
         <div>
-          <button type="button" className="btn btn-primary"> Veja mais </button>
+          <a href={"./" + project.Id }><button type="button" className="btn btn-primary">Veja mais</button></a>
         </div>
       </div>
     )
@@ -42,10 +66,8 @@ class ProjectList extends Component
   {
     return (
       <div>
-        <input type="text" class="form-control" placeholder="Pesquisar nome ou codigo"/>
-        {
-          this.state.projects
-        }
+        <input type="text" className="form-control" placeholder="Pesquisar nome ou código"/>
+        { this.printProjects() }
       </div>
     )
   }
