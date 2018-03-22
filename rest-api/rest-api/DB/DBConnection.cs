@@ -20,7 +20,7 @@ namespace rest_api.DB
         public static object ExecuteScalar(String sql)
         {
             SqlCommand cmd = new SqlCommand(sql, con);
-            return cmd.ExecuteReader();
+            return cmd.ExecuteScalar();
         }
 
         public static SqlDataReader ExecuteReader(String sql)

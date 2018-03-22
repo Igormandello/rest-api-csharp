@@ -56,7 +56,7 @@ namespace rest_api.Controllers
         }
 
         [AcceptVerbs("POST")]
-        [Route("create")]
+        [Route("")]
         public String Create(Project project)
         {
             try
@@ -72,7 +72,7 @@ namespace rest_api.Controllers
         }
 
         [AcceptVerbs("DELETE")]
-        [Route("{id}/delete")]
+        [Route("{id}")]
         public String Delete(int id)
         {
             try
@@ -88,7 +88,7 @@ namespace rest_api.Controllers
         }
 
         [AcceptVerbs("PUT")]
-        [Route("{id}/update")]
+        [Route("{id}")]
         public String Update(int id, Project project)
         {
             try
