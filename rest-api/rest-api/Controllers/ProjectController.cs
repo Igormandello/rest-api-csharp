@@ -32,17 +32,38 @@ namespace rest_api.Controllers
         }
 
         [AcceptVerbs("GET")]
-        [Route("{id}")]
-        public Project Select(int id)
+        [Route("{key}")]
+        public Project Select(object key)
         {
-            try
+            
+            if (key.GetType().Equals(Type.GetType("int")))
             {
-                return dao.GetByID(id);
+                int id = (int)key;
+
+                try
+                {
+                    return dao.GetByID(id);
+                }
+                catch
+                {
+                    return null;
+                }
             }
-            catch
+            else
             {
-                return null;
+                string name = (string)key;
+
+                try
+                {
+                    return dao.GetByName(name);
+                }
+                catch
+                {
+                    return null;
+                }
             }
+                
+
         }
 
         [AcceptVerbs("POST")]

@@ -35,9 +35,22 @@ namespace rest_api.DB.DAOs
             return p;
         }
 
+        public Project GetByName(string name)
+        {
+            SqlDataReader rdr = null;
+            rdr = DBConnection.ExecuteReader("select * from Project where Name = '" + name +"'");
+
+            Project p = null;
+            if (rdr.Read())
+                p = new Project(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(3));
+            rdr.Close();
+
+            return p;
+        }
+
         public void Insert(Project item)
         {
-            DBConnection.ExecuteNonQuery("insert into Project values ('" + item.Name + "', '" + item.Description + "', " + item.Year + ")");
+            DBConnection.ExecuteNonQuery("exec InsertProject '" + item.Name + "', '" + item.Description + "', " + item.Year);
         }
 
         public void Delete(int id)
