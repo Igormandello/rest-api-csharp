@@ -12,10 +12,10 @@ using System.Web.Http.Cors;
 namespace rest_api.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    [RoutePrefix("api/project")]
+    [RoutePrefix("api/teacher")]
     public class TeacherController : ApiController
     {
-        private ProjectDAO dao = new ProjectDAO();
+        private TeacherDAO dao = new TeacherDAO();
 
         [AcceptVerbs("GET")]
         [Route("")]
