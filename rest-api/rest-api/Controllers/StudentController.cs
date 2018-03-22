@@ -20,44 +20,30 @@ namespace rest_api.Controllers
 
         [AcceptVerbs("GET")]
         [Route("")]
-        public String SelectAll()
+        public List<Student> SelectAll()
         {
-            StringWriter sw = new StringWriter();
-            JsonSerializer serializer = new JsonSerializer();
-
             try
             {
-                serializer.Serialize(sw, dao.GetAll());
+                return dao.GetAll();
             }
-            catch (Exception e)
+            catch
             {
-                return e.Message;
+                return null;
             }
-
-            return sw.ToString();
         }
 
         [AcceptVerbs("GET")]
         [Route("{id}")]
-        public String Select(int id)
+        public Student Select(int id)
         {
-            StringWriter sw = new StringWriter();
-            JsonSerializer serializer = new JsonSerializer();
-
             try
             {
-                serializer.Serialize(sw, dao.GetByID(id));
+                return dao.GetByID(id);
             }
-            catch (Exception e)
+            catch
             {
-                return e.Message;
+                return null;
             }
-
-            String result = sw.ToString();
-            if (result == "null")
-                return "{}";
-
-            return result;
         }
     }
 }

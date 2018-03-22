@@ -89,10 +89,11 @@ namespace rest_api.Controllers
 
         [AcceptVerbs("PUT")]
         [Route("{id}/update")]
-        public String Update(Project project)
+        public String Update(int id, Project project)
         {
             try
             {
+                project.Id = id;
                 dao.Update(project);
             }
             catch (Exception e)
