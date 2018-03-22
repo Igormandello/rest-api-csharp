@@ -21,12 +21,12 @@ class ProjectList extends Component
     let settings =
     {
       url: "http://localhost:59674/api/project/",
-      method: 'get'
+      method: 'GET'
     }
     
-    //let query = $("input")[0];
-    //if (query != "")
-    //  settings.url += query
+    let query = document.getElementById("query").value;
+    if (query !== "" && query !== undefined)
+      settings.url += query
       
     $.ajax(settings).then(res =>
     {
@@ -38,17 +38,19 @@ class ProjectList extends Component
   {
     let projDivs = []
     if (this.state.projects != null)
-      this.state.projects.forEach(proj => 
-      {
-        projDivs.push(this.createProjectBox(proj));
-      });
+      if (Array.isArray(this.state.projects))
+        this.state.projects.forEach(proj => 
+        {
+          projDivs.push(this.createProjectBox(proj));
+        });
+      else
+        projDivs.push(this.createProjectBox(this.state.projects));
     
     return projDivs;
   }
 
   createProjectBox(project)
-  {
-    console.log(project)
+  { 
     return (
       <div className="projectBox">
         <h2> { project.Name } - { project.Year } </h2>
@@ -68,7 +70,7 @@ class ProjectList extends Component
   {
     return (
       <div>
-        <input type="text" className="form-control" placeholder="Pesquisar nome ou código"/>
+        <input id="query" type="text" className="form-control" onChange={() => this.requestProjects()} placeholder="Pesquisar nome ou código"/>
         { !this.state.loaded && <div className="loader"></div> }
         { this.state.loaded && this.printProjects() }
       </div>

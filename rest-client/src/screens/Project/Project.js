@@ -26,18 +26,29 @@ class Project extends Component
   componentDidMount()
   {
     this.save = this.save.bind(this)
+    this.deleteProject = this.deleteProject.bind(this)
     
     let settings =
     {
       async: true,
       crossDomain: true,
       url: "http://localhost:59674/api/project/" + this.props.match.params.id,
-      method: 'get'
+      method: 'GET'
     }
     
+    let attr = {};
     $.ajax(settings).then(res =>
     {
-      this.setState({ actualProject: res, loaded: true })
+      attr.actualProject = res
+      settings.url = "http://localhost:59674/api/teacher/"
+      
+      $.ajax(settings).then(res =>
+      {
+        attr.teachers = res
+        settings.url = "http://localhost:59674/api/student/"
+        
+        $.ajax(settings).then(res => this.setState({ actualProject: attr.actualProject, teachers: attr.teachers, students: res, loaded: true }))
+      })
     })
   }
   
@@ -56,13 +67,12 @@ class Project extends Component
   
   save()
   {
-    let name = document.getElementById("projTitle").value
-    
-    console.log(name)
-    let settings = {
+    let name = $("#projTitle").value
+    let settings =
+    {
       async: true,
       crossDomain: true,
-      url: "http://localhost:59674/api/project/" + this.state.actualProject.Id + "/update",
+      url: "http://localhost:59674/api/project/" + this.state.actualProject.Id,
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -86,13 +96,39 @@ class Project extends Component
 
   deleteProject()
   {
-    //Deletes the actual project//
-    //////////////////////////////
-    //////////////////////////////
-    
-    window.location = "./";
+    let settings =
+    {
+      async: true,
+      crossDomain: true,
+      url: "http://localhost:59674/api/project/" + this.state.actualProject.Id,
+      method: "DELETE",
+    }
+
+    $.ajax(settings).then(() => window.location = "./")
   }
   
+  teacherOptions()
+  {
+    let options = []
+    this.state.teachers.forEach(obj =>
+    {
+      options.push(<option>{ obj.Name }</option>)
+    })
+    
+    return options
+  }
+
+  studentOptions()
+  {
+    let options = []
+    this.state.students.forEach(obj =>
+    {
+      options.push(<option>{ obj.Name }</option>)
+    })
+    
+    return options
+  }
+
   render()
   {
     return (
@@ -113,28 +149,32 @@ class Project extends Component
             <div className="project-members">
               <label>Professor Orientador:</label>
               <select className="form-control">
-                <option>Professor</option>
+                <option>Selecione um professor...</option>
+                { this.teacherOptions() }
               </select>
 
               <br/><br/>
 
               <label>Aluno 1:</label>
               <select className="form-control">
-                <option>Student 1</option>
+                <option>Selecione um aluno...</option>
+                { this.studentOptions() }
               </select>
 
               <br/>
 
               <label>Aluno 2:</label>
               <select className="form-control">
-                <option>Student 2</option>
+                <option>Selecione um aluno...</option>
+                { this.studentOptions() }
               </select>
 
               <br/>
 
               <label>Aluno 3:</label>
               <select className="form-control">
-                <option>Student 3</option>
+                <option>Selecione um aluno...</option>
+                { this.studentOptions() }
               </select>
             </div>
 

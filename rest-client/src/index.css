@@ -24,7 +24,13 @@ header h1 a
 header h1 a:hover
 {
   text-decoration: none;
-  color: lightgrey;
+  color: grey;
+}
+
+header h1 a:focus
+{
+  text-decoration: none;
+  color: grey;
 }
 
 header h1
