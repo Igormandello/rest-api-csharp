@@ -1,0 +1,36 @@
+USE [BD16185]
+GO
+
+/****** Object:  Table [BD16185].[ProjectTeacher]    Script Date: 16/03/2018 09:12:59 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [BD16185].[ProjectTeacher](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProjectId] [int] NOT NULL,
+	[TeacherId] [int] NOT NULL,
+ CONSTRAINT [PK_ProjectTeacher] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [BD16185].[ProjectTeacher]  WITH CHECK ADD  CONSTRAINT [FK_ProjectTeacher_Project] FOREIGN KEY([ProjectId])
+REFERENCES [BD16185].[Project] ([Id])
+GO
+
+ALTER TABLE [BD16185].[ProjectTeacher] CHECK CONSTRAINT [FK_ProjectTeacher_Project]
+GO
+
+ALTER TABLE [BD16185].[ProjectTeacher]  WITH CHECK ADD  CONSTRAINT [FK_ProjectTeacher_Teacher] FOREIGN KEY([TeacherId])
+REFERENCES [BD16185].[Teacher] ([Id])
+GO
+
+ALTER TABLE [BD16185].[ProjectTeacher] CHECK CONSTRAINT [FK_ProjectTeacher_Teacher]
+GO
+
