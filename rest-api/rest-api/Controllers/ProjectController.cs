@@ -33,13 +33,9 @@ namespace rest_api.Controllers
 
         [AcceptVerbs("GET")]
         [Route("{key}")]
-        public Project Select(object key)
+        public Project Select(string key)
         {
-            
-            if (key.GetType().Equals(Type.GetType("int")))
-            {
-                int id = (int)key;
-
+            if (Int32.TryParse(key, out int id))
                 try
                 {
                     return dao.GetByID(id);
@@ -48,22 +44,15 @@ namespace rest_api.Controllers
                 {
                     return null;
                 }
-            }
             else
-            {
-                string name = (string)key;
-
                 try
                 {
-                    return dao.GetByName(name);
+                    return dao.GetByName(key);
                 }
                 catch
                 {
                     return null;
                 }
-            }
-                
-
         }
 
         [AcceptVerbs("POST")]
@@ -100,10 +89,11 @@ namespace rest_api.Controllers
 
         [AcceptVerbs("PUT")]
         [Route("{id}/update")]
-        public String Update(Project project)
+        public String Update(int id, Project project)
         {
             try
             {
+                project.Id = id;
                 dao.Update(project);
             }
             catch (Exception e)

@@ -25,8 +25,12 @@ class Project extends Component
 {
   componentDidMount()
   {
+    this.save = this.save.bind(this)
+    
     let settings =
     {
+      async: true,
+      crossDomain: true,
       url: "http://localhost:59674/api/project/" + this.props.match.params.id,
       method: 'get'
     }
@@ -52,15 +56,32 @@ class Project extends Component
   
   save()
   {
-    //Saves the actual data of project//
-    ////////////////////////////////////
-    ////////////////////////////////////
+    let name = document.getElementById("projTitle").value
     
-    Alert.success(<h1>Alterações salvas com sucesso!</h1>, {
-      position: 'bottom-right',
-      effect: 'scale',
-      timeout: 3000
-    })
+    console.log(name)
+    let settings = {
+      async: true,
+      crossDomain: true,
+      url: "http://localhost:59674/api/project/" + this.state.actualProject.Id + "/update",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
+      },
+      data: "{ Name: \"" + name + "\", Description: \"" + this.state.actualProject.Description + "\", Year: " + this.state.actualProject.Year + " }"
+    }
+
+    $.ajax(settings).done(() => 
+      Alert.success(<h1>Alterações salvas com sucesso!</h1>, {
+        position: 'bottom-right',
+        effect: 'scale',
+        timeout: 3000
+      })).catch((err) => 
+        Alert.error(<h1>{ err.message }</h1>, {
+          position: 'bottom-right',
+          effect: 'scale',
+          timeout: 3000
+        }));
   }
 
   deleteProject()
@@ -74,7 +95,6 @@ class Project extends Component
   
   render()
   {
-    console.log(this.state.actualProject)
     return (
       <div>
         { !this.state.loaded && <div className="loader"></div> }
@@ -83,7 +103,7 @@ class Project extends Component
           this.state.loaded &&
           <div>
             <div className="project-title">
-              <input type="text" className="form-control" value={ this.state.actualProject.Name } onChange={() => {}}/>
+              <input id="projTitle" type="text" className="form-control" defaultValue={ this.state.actualProject.Name } onChange={() => {}}/>
             </div>
 
             <div className="project-year">
@@ -124,14 +144,14 @@ class Project extends Component
               <button type="button" className="btn btn-primary" onClick={ this.save }>
                   Salvar Alterações
               </button>
-              <button type="button" class="btn btn-danger" onClick={ this.openModal }> Excluir </button>
+              <button type="button" className="btn btn-danger" onClick={ this.openModal }> Excluir </button>
             </div>
             
             <Modal open={ this.state.modalOpen } onClose={ this.closeModal } styles={ contentStyle } little>
               <div className="modal">
                 <h2>Você deseja realmente excluir este projeto?</h2>
                 <br/>
-                <button type="button" class="btn btn-danger" onClick={ this.deleteProject }> Sim </button>
+                <button type="button" className="btn btn-danger" onClick={ this.deleteProject }> Sim </button>
                 <button type="button" className="btn btn-success" onClick={ this.closeModal }> Não </button>
               </div>
             </Modal>
