@@ -90,13 +90,12 @@ namespace rest_api.Controllers
             try
             {
                 dao.Insert(project);
+                return dao.GetByName(project.Name).Id + "";
             }
             catch (Exception e)
             {
                 return e.Message;
             }
-
-            return "";
         }
 
         [AcceptVerbs("DELETE")]
