@@ -67,7 +67,7 @@ class Project extends Component
   
   save()
   {
-    let name = $("#projTitle").value
+    let name = document.getElementById("projTitle").value
     let settings =
     {
       async: true,

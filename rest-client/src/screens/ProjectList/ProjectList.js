@@ -3,6 +3,8 @@ import $ from 'jquery';
 
 import './ProjectList.css';
 
+import addIcon from '../../imgs/add.png';
+
 class ProjectList extends Component
 {
   componentDidMount()
@@ -70,6 +72,7 @@ class ProjectList extends Component
   {
     return (
       <div>
+        <a href="#"><img className="addProject" src={ addIcon }></img></a>
         <input id="query" type="text" className="form-control" onChange={() => this.requestProjects()} placeholder="Pesquisar nome ou código"/>
         { !this.state.loaded && <div className="loader"></div> }
         { this.state.loaded && this.printProjects() }
