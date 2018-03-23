@@ -63,5 +63,10 @@ namespace rest_api.DB.DAOs
             rdr.Close();
             return studs;
         }
+
+        public void ExitProject(int id)
+        {
+            DBConnection.ExecuteNonQuery("delete from ProjectStudent where ProjectId = " + id);
+        }
     }
 }

@@ -50,7 +50,13 @@ namespace rest_api.DB.DAOs
 
         public void Insert(Project item)
         {
-            DBConnection.ExecuteNonQuery("exec InsertProject '" + item.Name + "', '" + item.Description + "', " + item.Year);
+            try
+            {
+                DBConnection.ExecuteNonQuery("exec InsertProject '" + item.Name + "', '" + item.Description + "', " + item.Year);
+            }
+            catch
+            { }
+            
         }
 
         public void Delete(int id)
@@ -61,6 +67,26 @@ namespace rest_api.DB.DAOs
         public void Update(Project item)
         {
             DBConnection.ExecuteNonQuery("update Project set Name = '" + item.Name + "', Description = '" + item.Description + "', Year = " + item.Year + " where Id = " + item.Id);
+        }
+
+        public void linkTeacher(int projectId, int teacherId)
+        {
+            try
+            {
+                DBConnection.ExecuteNonQuery("exec linkProjectTeacher " + projectId + ", " + teacherId);
+            }
+            catch
+            { }
+        }
+
+        public void linkStudent(int projectId, int studentId)
+        {
+            try
+            {
+                DBConnection.ExecuteNonQuery("exec linkProjectStudent " + projectId + ", " + studentId);
+            }
+            catch
+            { }
         }
     }
 }

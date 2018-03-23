@@ -131,5 +131,45 @@ namespace rest_api.Controllers
 
             return "";
         }
+
+        [AcceptVerbs("PUT")]
+        [Route("{key}/linkTeachers")]
+        public void linkTeachers(string key, List<Teacher> teachers)
+        {
+            TeacherDAO tcDao = new TeacherDAO();
+
+            if (Int32.TryParse(key, out int id))
+                tcDao.ExitProject(id);
+            else
+                tcDao.ExitProject((dao.GetByName(key).Id));
+
+            foreach (Teacher t in teachers)
+            {
+                if (Int32.TryParse(key, out id))
+                    dao.linkTeacher(id, t.Id);
+                else
+                    dao.linkTeacher(dao.GetByName(key).Id, t.Id);
+            }
+        }
+
+        [AcceptVerbs("PUT")]
+        [Route("{key}/linkStudents")]
+        public void linkStudents(string key, List<Student> students)
+        {
+            StudentDAO stDao = new StudentDAO();
+
+            if (Int32.TryParse(key, out int id))
+                stDao.ExitProject(id);
+            else
+                stDao.ExitProject((dao.GetByName(key).Id));
+
+            foreach (Student t in students)
+            {
+                if (Int32.TryParse(key, out id))
+                    dao.linkStudent(id, t.RA);
+                else
+                    dao.linkStudent(dao.GetByName(key).Id, t.RA);
+            }
+        }
     }
 }
