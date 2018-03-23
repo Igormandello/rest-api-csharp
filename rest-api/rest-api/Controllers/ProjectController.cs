@@ -32,6 +32,34 @@ namespace rest_api.Controllers
         }
 
         [AcceptVerbs("GET")]
+        [Route("{key}/Students")]
+        public List<Student> SelectStudents(string key)
+        {
+            StudentDAO stDao = new StudentDAO();           //Student DAO
+            List<Student> studs = null;
+            if (Int32.TryParse(key, out int id))
+                studs = stDao.GetByProjectID(id);
+            else
+                studs = stDao.GetByProjectID(dao.GetByName(key).Id);
+
+            return studs;
+        }
+
+        [AcceptVerbs("GET")]
+        [Route("{key}/Teachers")]
+        public List<Teacher> SelectTeachers(string key)
+        {
+            TeacherDAO tcDao = new TeacherDAO();           //Teacher DAO
+            List<Teacher> teachers = null;
+            if (Int32.TryParse(key, out int id))
+                teachers = tcDao.GetByProjectID(id);
+            else
+                teachers = tcDao.GetByProjectID(dao.GetByName(key).Id);
+
+            return teachers;
+        }
+
+        [AcceptVerbs("GET")]
         [Route("{key}")]
         public Project Select(string key)
         {
