@@ -14,12 +14,12 @@ namespace rest_api.DB.DAOs
             SqlDataReader rdr = null;
             rdr = DBConnection.ExecuteReader("select * from Teacher");
 
-            List<Teacher> studs = new List<Teacher>();
+            List<Teacher> teachers = new List<Teacher>();
             while (rdr.Read())
-                studs.Add(new Teacher(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2)));
+                teachers.Add(new Teacher(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2)));
 
             rdr.Close();
-            return studs;
+            return teachers;
         }
 
         public Teacher GetByID(int id)
@@ -48,6 +48,20 @@ namespace rest_api.DB.DAOs
         public void Update(Teacher item)
         {
             DBConnection.ExecuteNonQuery("update Teacher set Name = '" + item.Name + "', Email = '" + item.Email + "' where Id = " + item.Id);
+        }
+
+        public List<Teacher> GetByProjectID(int id)
+        {
+            SqlDataReader rdr = null;
+            rdr = DBConnection.ExecuteReader("select * from ProjectTeacher where ProjectId = " + id);
+
+            List<Teacher> teachers = new List<Teacher>();
+
+            while (rdr.Read())
+                teachers.Add(GetByID(rdr.GetInt32(2)));
+
+            rdr.Close();
+            return teachers;
         }
     }
 }

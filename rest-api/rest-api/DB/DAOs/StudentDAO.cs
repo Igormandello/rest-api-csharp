@@ -49,5 +49,19 @@ namespace rest_api.DB.DAOs
         {
             DBConnection.ExecuteNonQuery("update Student set Name = '" + item.Name + "', Email = '" + item.Email + "' where RA = " + item.RA);
         }
+
+        public List<Student> GetByProjectID(int id)
+        {
+            SqlDataReader rdr = null;
+            rdr = DBConnection.ExecuteReader("select * from ProjectStudent where ProjectId = " + id);
+
+            List<Student> studs = new List<Student>();
+
+            while (rdr.Read())
+                studs.Add(GetByID(rdr.GetInt32(2)));
+
+            rdr.Close();
+            return studs;
+        }
     }
 }
