@@ -14,20 +14,20 @@ header
   padding: 20px;
 }
 
-header h1 a
+ a
 {
   text-decoration: none;
   color: white;
   transition: color 0.5s;
 }
 
-header h1 a:hover
+ a:hover
 {
   text-decoration: none;
   color: grey;
 }
 
-header h1 a:focus
+a:focus
 {
   text-decoration: none;
   color: grey;

@@ -41,3 +41,13 @@ hr
   transition: background-color 0.5s;
   margin-left: 0;
 }
+
+.addProject
+{
+  position: absolute;
+  right: 2vw;
+  bottom: 2vw;
+  
+  width: 6vw;
+  height: 6vw;
+}
