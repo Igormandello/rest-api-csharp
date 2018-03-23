@@ -6,6 +6,7 @@ import './bootstrap.min.css';
 import './index.css';
 
 import Project from './screens/Project/Project';
+import CreateProject from './screens/CreateProject/CreateProject';
 import ProjectList from './screens/ProjectList/ProjectList';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -27,6 +28,7 @@ class Main extends Component
           <Router>
             <Switch>
               <Route exact path="/" component={ ProjectList } />
+              <Route path="/create" component={ CreateProject } />
               <Route path="/:id" component={ Project } />
             </Switch>
           </Router>
