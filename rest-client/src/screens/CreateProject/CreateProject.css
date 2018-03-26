@@ -35,15 +35,10 @@
   margin: 0 auto 0 auto;
 }
 
-.project-options
+.createProject
 {
-  margin-bottom: 10%;
-}
-
-div button
-{
-  width: 90%;
-  margin: 0 5% 0 5%;
+  width: 70%;
+  margin: 0 15% 10% 15%;
 }
 
 .modal h2

@@ -44,7 +44,7 @@ hr
 
 .addProject
 {
-  position: absolute;
+  position: fixed;
   right: 2vw;
   bottom: 2vw;
   

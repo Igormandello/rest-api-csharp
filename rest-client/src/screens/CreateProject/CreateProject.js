@@ -52,15 +52,24 @@ class Project extends Component
     
     if (teacher2 > 0)
       teacher2 = this.state.teachers[teacher2]
+    else
+      teacher2 = null
       
     if (student2 > 0)
       student2 = this.state.students[student2]
+    else
+      student2 = null
       
     if (student3 > 0)
       student3 = this.state.students[student3]
+    else
+      student3 = null
       
     if (!Number.isInteger(parseInt(year)))
+    {
       this.createErrorMessage("O ano deve ser um número!")
+      return
+    }
         
     let settings =
     {
@@ -77,8 +86,25 @@ class Project extends Component
     
     $.ajax(settings).done(res =>
     {
-      let id = res
-      console.log(id)
+      settings.method = "PUT"
+      
+      let baseUrl = settings.url + res
+      settings.url = baseUrl + "/linkTeachers"
+      settings.data = "[{ Id: \"" + teacher1.Id + "\"}" + (teacher2 ? ", { Id: \"" + teacher2.Id + "\"}" : "") + "]"
+      
+      $.ajax(settings).then(() =>
+      {
+        settings.url = baseUrl + "/linkStudents"
+        settings.data = "[{ RA: " + student1.RA + " }" + (student2 ? ", { RA: " + student2.RA + " }" : "") + (student3 ? ", { RA: " + student3.RA + " }" : "") +"]"
+        
+        $.ajax(settings).then(() =>
+          Alert.success(<h1>Projeto criado com sucesso!</h1>, {
+            position: 'bottom-right',
+            effect: 'scale',
+            timeout: 3000
+          })
+        ).catch(err => this.createErrorMessage(err.responseJSON.Message))
+      })
     })
   }
 
@@ -174,11 +200,9 @@ class Project extends Component
 
             <br/><br/>
 
-            <div className="project-options">
-              <button type="button" className="btn btn-success" onClick={ this.create }>
-                  Criar Projeto
-              </button>
-            </div>
+            <button type="button" className="btn btn-success createProject" onClick={ this.create }>
+                Criar Projeto
+            </button>
           </div>
         }
         
