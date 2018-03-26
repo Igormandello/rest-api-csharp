@@ -40,14 +40,27 @@ class Project extends Component
     $.ajax(settings).then(res =>
     {
       attr.actualProject = res
-      settings.url = "http://localhost:59674/api/teacher/"
       
+      let baseUrl = settings.url
+      settings.url = baseUrl + "/students"
       $.ajax(settings).then(res =>
       {
-        attr.teachers = res
-        settings.url = "http://localhost:59674/api/student/"
+        attr.actualProject.students = res
         
-        $.ajax(settings).then(res => this.setState({ actualProject: attr.actualProject, teachers: attr.teachers, students: res, loaded: true }))
+        settings.url = baseUrl + "/teachers"
+        $.ajax(settings).then(res =>
+        {
+          attr.actualProject.teachers = res
+          
+          settings.url = "http://localhost:59674/api/teacher/"
+          $.ajax(settings).then(res =>
+          {
+            attr.teachers = res
+            settings.url = "http://localhost:59674/api/student/"
+
+            $.ajax(settings).then(res => this.setState({ actualProject: attr.actualProject, teachers: attr.teachers, students: res, loaded: true }))
+          })
+        })
       })
     })
   }
@@ -110,10 +123,7 @@ class Project extends Component
   teacherOptions()
   {
     let options = []
-    this.state.teachers.forEach(obj =>
-    {
-      options.push(<option>{ obj.Name }</option>)
-    })
+    this.state.teachers.forEach(obj => options.push(<option>{ obj.Name }</option>))
     
     return options
   }
@@ -121,11 +131,8 @@ class Project extends Component
   studentOptions()
   {
     let options = []
-    this.state.students.forEach(obj =>
-    {
-      options.push(<option>{ obj.Name }</option>)
-    })
-    
+    this.state.students.forEach(obj => options.push(<option>{ obj.Name }</option>))
+      
     return options
   }
 
@@ -148,32 +155,38 @@ class Project extends Component
 
             <div className="project-members">
               <label>Professor Orientador:</label>
-              <select className="form-control">
-                <option>Selecione um professor...</option>
+              <select defaultValue={ (this.state.actualProject.teachers.length > 0 ? this.state.actualProject.teachers[0].Name : "") } className="form-control">
+                { this.teacherOptions() }
+              </select>
+              
+              <br/>
+              
+              <label>Professor Co-Orientador:</label>
+              <select id="teacher2" defaultValue={ (this.state.actualProject.teachers.length > 1 ? this.state.actualProject.teachers[1].Name : "") } className="form-control">
+                <option>Nenhum</option>
                 { this.teacherOptions() }
               </select>
 
               <br/><br/>
 
               <label>Aluno 1:</label>
-              <select className="form-control">
-                <option>Selecione um aluno...</option>
+              <select defaultValue={ (this.state.actualProject.students.length > 0 ? this.state.actualProject.students[0].Name : "") } className="form-control">
                 { this.studentOptions() }
               </select>
 
               <br/>
 
               <label>Aluno 2:</label>
-              <select className="form-control">
-                <option>Selecione um aluno...</option>
+              <select defaultValue={ (this.state.actualProject.students.length > 1 ? this.state.actualProject.students[1].Name : "") } className="form-control">
+                <option>Nenhum</option>
                 { this.studentOptions() }
               </select>
 
               <br/>
 
               <label>Aluno 3:</label>
-              <select className="form-control">
-                <option>Selecione um aluno...</option>
+              <select defaultValue={ (this.state.actualProject.students.length > 2 ? this.state.actualProject.students[2].Name : "") } className="form-control">
+                <option>Nenhum</option>
                 { this.studentOptions() }
               </select>
             </div>
