@@ -55,12 +55,15 @@ namespace rest_api.DB.DAOs
             SqlDataReader rdr = null;
             rdr = DBConnection.ExecuteReader("select * from ProjectStudent where ProjectId = " + id);
 
-            List<Student> studs = new List<Student>();
-
+            List<int> ids = new List<int>();
             while (rdr.Read())
-                studs.Add(GetByID(rdr.GetInt32(2)));
-
+                ids.Add(rdr.GetInt32(2));
             rdr.Close();
+
+            List<Student> studs = new List<Student>();
+            foreach (int n in ids)
+                studs.Add(GetByID(n));
+
             return studs;
         }
 
