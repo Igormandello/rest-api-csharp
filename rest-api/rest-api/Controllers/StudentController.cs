@@ -16,7 +16,7 @@ namespace rest_api.Controllers
     public class StudentController : ApiController
     {
 
-        private StudentDAO dao = new StudentDAO();
+        public readonly static StudentDAO dao = new StudentDAO();
 
         [AcceptVerbs("GET")]
         [Route("")]
