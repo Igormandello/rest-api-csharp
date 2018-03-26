@@ -35,12 +35,11 @@ namespace rest_api.Controllers
         [Route("{key}/Students")]
         public List<Student> SelectStudents(string key)
         {
-            StudentDAO stDao = new StudentDAO();           //Student DAO
             List<Student> studs = null;
             if (Int32.TryParse(key, out int id))
-                studs = stDao.GetByProjectID(id);
+                studs = StudentController.dao.GetByProjectID(id);
             else
-                studs = stDao.GetByProjectID(dao.GetByName(key).Id);
+                studs = StudentController.dao.GetByProjectID(dao.GetByName(key).Id);
 
             return studs;
         }
@@ -49,12 +48,11 @@ namespace rest_api.Controllers
         [Route("{key}/Teachers")]
         public List<Teacher> SelectTeachers(string key)
         {
-            TeacherDAO tcDao = new TeacherDAO();           //Teacher DAO
             List<Teacher> teachers = null;
             if (Int32.TryParse(key, out int id))
-                teachers = tcDao.GetByProjectID(id);
+                teachers = TeacherController.dao.GetByProjectID(id);
             else
-                teachers = tcDao.GetByProjectID(dao.GetByName(key).Id);
+                teachers = TeacherController.dao.GetByProjectID(dao.GetByName(key).Id);
 
             return teachers;
         }
@@ -104,12 +102,10 @@ namespace rest_api.Controllers
         {
             try
             {
-                TeacherDAO tcDao = new TeacherDAO();
-
                 if (Int32.TryParse(key, out int id))
-                    tcDao.ExitProject(id);
+                    TeacherController.dao.ExitProject(id);
                 else
-                    tcDao.ExitProject((dao.GetByName(key).Id));
+                    TeacherController.dao.ExitProject((dao.GetByName(key).Id));
 
                 StudentDAO stDao = new StudentDAO();
 
@@ -149,12 +145,10 @@ namespace rest_api.Controllers
         [Route("{key}/linkTeachers")]
         public void linkTeachers(string key, List<Teacher> teachers)
         {
-            TeacherDAO tcDao = new TeacherDAO();
-
             if (Int32.TryParse(key, out int id))
-                tcDao.ExitProject(id);
+                TeacherController.dao.ExitProject(id);
             else
-                tcDao.ExitProject((dao.GetByName(key).Id));
+                TeacherController.dao.ExitProject((dao.GetByName(key).Id));
 
             try
             {
@@ -176,12 +170,10 @@ namespace rest_api.Controllers
         [Route("{key}/linkStudents")]
         public void linkStudents(string key, List<Student> students)
         {
-            StudentDAO stDao = new StudentDAO();
-
             if (Int32.TryParse(key, out int id))
-                stDao.ExitProject(id);
+                StudentController.dao.ExitProject(id);
             else
-                stDao.ExitProject((dao.GetByName(key).Id));
+                StudentController.dao.ExitProject((dao.GetByName(key).Id));
 
             try
             {
