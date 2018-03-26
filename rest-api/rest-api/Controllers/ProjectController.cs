@@ -107,12 +107,10 @@ namespace rest_api.Controllers
                 else
                     TeacherController.dao.ExitProject((dao.GetByName(key).Id));
 
-                StudentDAO stDao = new StudentDAO();
-
                 if (Int32.TryParse(key, out id))
-                    stDao.ExitProject(id);
+                    StudentController.dao.ExitProject(id);
                 else
-                    stDao.ExitProject((dao.GetByName(key).Id));
+                    StudentController.dao.ExitProject((dao.GetByName(key).Id));
 
                 dao.Delete(id);
             }
