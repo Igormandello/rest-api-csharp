@@ -94,13 +94,13 @@ namespace rest_api.Controllers
             }
             catch (Exception e)
             {
-                return e.Message;
+                throw e;
             }
         }
 
         [AcceptVerbs("DELETE")]
         [Route("{id}")]
-        public String Delete(int id)
+        public void Delete(int id)
         {
             try
             {
@@ -108,15 +108,13 @@ namespace rest_api.Controllers
             }
             catch (Exception e)
             {
-                return e.Message;
+                throw e;
             }
-
-            return "";
         }
 
         [AcceptVerbs("PUT")]
         [Route("{id}")]
-        public String Update(int id, Project project)
+        public void Update(int id, Project project)
         {
             try
             {
@@ -125,10 +123,8 @@ namespace rest_api.Controllers
             }
             catch (Exception e)
             {
-                return e.Message;
+                throw e;
             }
-
-            return "";
         }
 
         [AcceptVerbs("PUT")]
@@ -142,12 +138,19 @@ namespace rest_api.Controllers
             else
                 tcDao.ExitProject((dao.GetByName(key).Id));
 
-            foreach (Teacher t in teachers)
+            try
             {
-                if (Int32.TryParse(key, out id))
-                    dao.linkTeacher(id, t.Id);
-                else
-                    dao.linkTeacher(dao.GetByName(key).Id, t.Id);
+                foreach (Teacher t in teachers)
+                {
+                    if (Int32.TryParse(key, out id))
+                        dao.linkTeacher(id, t.Id);
+                    else
+                        dao.linkTeacher(dao.GetByName(key).Id, t.Id);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 
@@ -162,12 +165,19 @@ namespace rest_api.Controllers
             else
                 stDao.ExitProject((dao.GetByName(key).Id));
 
-            foreach (Student t in students)
+            try
             {
-                if (Int32.TryParse(key, out id))
-                    dao.linkStudent(id, t.RA);
-                else
-                    dao.linkStudent(dao.GetByName(key).Id, t.RA);
+                foreach (Student t in students)
+                {
+                    if (Int32.TryParse(key, out id))
+                        dao.linkStudent(id, t.RA);
+                    else
+                        dao.linkStudent(dao.GetByName(key).Id, t.RA);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
     }
