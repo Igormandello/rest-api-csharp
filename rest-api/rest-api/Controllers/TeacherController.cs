@@ -15,7 +15,7 @@ namespace rest_api.Controllers
     [RoutePrefix("api/teacher")]
     public class TeacherController : ApiController
     {
-        private TeacherDAO dao = new TeacherDAO();
+        public readonly static TeacherDAO dao = new TeacherDAO();
 
         [AcceptVerbs("GET")]
         [Route("")]

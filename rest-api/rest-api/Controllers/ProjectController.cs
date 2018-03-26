@@ -15,7 +15,7 @@ namespace rest_api.Controllers
     [RoutePrefix("api/project")]
     public class ProjectController : ApiController
     {
-        private ProjectDAO dao = new ProjectDAO();
+        public readonly static ProjectDAO dao = new ProjectDAO();
 
         [AcceptVerbs("GET")]
         [Route("")]
@@ -99,11 +99,25 @@ namespace rest_api.Controllers
         }
 
         [AcceptVerbs("DELETE")]
-        [Route("{id}")]
-        public String Delete(int id)
+        [Route("{key}")]
+        public String Delete(string key)
         {
             try
             {
+                TeacherDAO tcDao = new TeacherDAO();
+
+                if (Int32.TryParse(key, out int id))
+                    tcDao.ExitProject(id);
+                else
+                    tcDao.ExitProject((dao.GetByName(key).Id));
+
+                StudentDAO stDao = new StudentDAO();
+
+                if (Int32.TryParse(key, out id))
+                    stDao.ExitProject(id);
+                else
+                    stDao.ExitProject((dao.GetByName(key).Id));
+
                 dao.Delete(id);
             }
             catch (Exception e)
@@ -115,12 +129,16 @@ namespace rest_api.Controllers
         }
 
         [AcceptVerbs("PUT")]
-        [Route("{id}")]
-        public String Update(int id, Project project)
+        [Route("{key}")]
+        public String Update(string key, Project project)
         {
             try
             {
-                project.Id = id;
+                if (Int32.TryParse(key, out int id))
+                    project.Id = id;
+                else
+                    project.Id = dao.GetByName(key).Id;
+
                 dao.Update(project);
             }
             catch (Exception e)
