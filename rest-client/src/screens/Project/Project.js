@@ -80,7 +80,30 @@ class Project extends Component
   
   save()
   {
-    let name = document.getElementById("projTitle").value
+    let name = document.getElementById("projTitle").value,
+    
+        teacher1 = this.state.teachers[document.getElementById("teacher1").selectedIndex],
+        teacher2 = document.getElementById("teacher2").selectedIndex - 1,
+        
+        student1 = this.state.students[document.getElementById("student1").selectedIndex],
+        student2 = document.getElementById("student2").selectedIndex - 1,
+        student3 = document.getElementById("student3").selectedIndex - 1
+    
+    if (teacher2 > 0)
+      teacher2 = this.state.teachers[teacher2]
+    else
+      teacher2 = null
+      
+    if (student2 > 0)
+      student2 = this.state.students[student2]
+    else
+      student2 = null
+      
+    if (student3 > 0)
+      student3 = this.state.students[student3]
+    else
+      student3 = null
+        
     let settings =
     {
       async: true,
@@ -93,18 +116,36 @@ class Project extends Component
       },
       data: "{ Name: \"" + name + "\", Description: \"" + this.state.actualProject.Description + "\", Year: " + this.state.actualProject.Year + " }"
     }
+    
+    $.ajax(settings).done(res =>
+    {
+      let baseUrl = settings.url
+      settings.url = baseUrl + "/linkTeachers"
+      settings.data = "[{ Id: \"" + teacher1.Id + "\"}" + (teacher2 ? ", { Id: \"" + teacher2.Id + "\"}" : "") + "]"
+      
+      $.ajax(settings).then(() =>
+      {
+        settings.url = baseUrl + "/linkStudents"
+        settings.data = "[{ RA: " + student1.RA + " }" + (student2 ? ", { RA: " + student2.RA + " }" : "") + (student3 ? ", { RA: " + student3.RA + " }" : "") +"]"
+        
+        $.ajax(settings).then(() =>
+          Alert.success(<h1>Alterações salvas com sucesso!</h1>, {
+            position: 'bottom-right',
+            effect: 'scale',
+            timeout: 3000
+          })
+        ).catch(err => this.createErrorMessage(err.responseJSON.Message))
+      })
+    })
+  }
 
-    $.ajax(settings).done(() => 
-      Alert.success(<h1>Alterações salvas com sucesso!</h1>, {
-        position: 'bottom-right',
-        effect: 'scale',
-        timeout: 3000
-      })).catch((err) => 
-        Alert.error(<h1>{ err.message }</h1>, {
-          position: 'bottom-right',
-          effect: 'scale',
-          timeout: 3000
-        }));
+  createErrorMessage(str)
+  {
+    Alert.error(<h1>{ str }</h1>, {
+      position: 'bottom-right',
+      effect: 'scale',
+      timeout: 3000
+    })
   }
 
   deleteProject()
@@ -155,7 +196,7 @@ class Project extends Component
 
             <div className="project-members">
               <label>Professor Orientador:</label>
-              <select defaultValue={ (this.state.actualProject.teachers.length > 0 ? this.state.actualProject.teachers[0].Name : "") } className="form-control">
+              <select id="teacher1" defaultValue={ (this.state.actualProject.teachers.length > 0 ? this.state.actualProject.teachers[0].Name : "") } className="form-control">
                 { this.teacherOptions() }
               </select>
               
@@ -170,14 +211,14 @@ class Project extends Component
               <br/><br/>
 
               <label>Aluno 1:</label>
-              <select defaultValue={ (this.state.actualProject.students.length > 0 ? this.state.actualProject.students[0].Name : "") } className="form-control">
+              <select id="student1" defaultValue={ (this.state.actualProject.students.length > 0 ? this.state.actualProject.students[0].Name : "") } className="form-control">
                 { this.studentOptions() }
               </select>
 
               <br/>
 
               <label>Aluno 2:</label>
-              <select defaultValue={ (this.state.actualProject.students.length > 1 ? this.state.actualProject.students[1].Name : "") } className="form-control">
+              <select id="student2" defaultValue={ (this.state.actualProject.students.length > 1 ? this.state.actualProject.students[1].Name : "") } className="form-control">
                 <option>Nenhum</option>
                 { this.studentOptions() }
               </select>
@@ -185,7 +226,7 @@ class Project extends Component
               <br/>
 
               <label>Aluno 3:</label>
-              <select defaultValue={ (this.state.actualProject.students.length > 2 ? this.state.actualProject.students[2].Name : "") } className="form-control">
+              <select id="student3" defaultValue={ (this.state.actualProject.students.length > 2 ? this.state.actualProject.students[2].Name : "") } className="form-control">
                 <option>Nenhum</option>
                 { this.studentOptions() }
               </select>
